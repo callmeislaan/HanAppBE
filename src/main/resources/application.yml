@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/hanapp?serverTimezone=UTC&cachePrepStmts=true&useServerPrepStmts=true&rewriteBatchedStatements=true
+    username: phuoc
+    password: abc123
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
