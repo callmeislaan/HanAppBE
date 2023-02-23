@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +33,11 @@ public class LessonKeyValueService {
     public LessonKeyValueResponse createLessonKeyValue(LessonKeyValueRequest request) {
         LessonKeyValue lessonKeyValue = new LessonKeyValue();
         Lesson lesson = lessonRepository.findById(request.getLessonId()).orElseThrow(RuntimeException::new);
-        BeanUtils.copyProperties(request, lessonKeyValue);
+        Optional<LessonKeyValue> firstByTransKeyAndLesson = lessonKeyValueRepository.findFirstByTransKeyAndLesson(request.getTransKey(), lesson);
+        if (firstByTransKeyAndLesson.isPresent()) {
+            lessonKeyValue = firstByTransKeyAndLesson.get();
+        }
+        BeanUtils.copyProperties(request, lessonKeyValue, "id");
         lessonKeyValue.setLesson(lesson);
         return ConvertUtil.convert(lessonKeyValueRepository.save(lessonKeyValue));
     }
@@ -50,5 +55,11 @@ public class LessonKeyValueService {
         return getLessonKeyValues();
     }
 
+    public Void deleteLessonKeyValue(Long id, String key) {
+        Lesson lesson = lessonRepository.findById(id).orElseThrow(RuntimeException::new);
+        Optional<LessonKeyValue> firstByTransKeyAndLesson = lessonKeyValueRepository.findFirstByTransKeyAndLesson(key, lesson);
+        firstByTransKeyAndLesson.ifPresent(lessonKeyValueRepository::delete);
+        return null;
+    }
 
 }

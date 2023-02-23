@@ -7,6 +7,7 @@ import com.example.hanapp.entity.LessonKeyValue;
 import com.example.hanapp.entity.request.LessonContentRequest;
 import com.example.hanapp.entity.request.LessonContentResponse;
 import com.example.hanapp.entity.request.LessonRequest;
+import com.example.hanapp.entity.response.FolderLessonResponse;
 import com.example.hanapp.entity.response.LessonDetailResponse;
 import com.example.hanapp.entity.response.LessonKeyValueResponse;
 import com.example.hanapp.entity.response.LessonResponse;
@@ -89,8 +90,13 @@ public class LessonService {
         return response;
     }
 
-    public List<LessonResponse> getLessonsInFolder(Long id) {
-        return lessonRepository.findAllByFolder_Id(id)
+    public FolderLessonResponse getLessonsInFolder(Long id) {
+        List<LessonResponse> lessonResponses = lessonRepository.findAllByFolder_Id(id)
                 .stream().map(ConvertUtil::convert).collect(Collectors.toList());
+        Folder folder = folderRepository.findById(id).orElseThrow(RuntimeException::new);
+        FolderLessonResponse response = new FolderLessonResponse();
+        response.setFolder(ConvertUtil.convert(folder));
+        response.setLessons(lessonResponses);
+        return response;
     }
 }

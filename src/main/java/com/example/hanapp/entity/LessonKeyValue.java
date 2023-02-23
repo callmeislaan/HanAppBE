@@ -13,7 +13,7 @@ public class LessonKeyValue {
     @Column(name = "trans_key")
     private String transKey;
 
-    @Column(name = "tran_value")
+    @Column(name = "tran_value", length = 2000)
     private String transValue;
 
     @ManyToOne

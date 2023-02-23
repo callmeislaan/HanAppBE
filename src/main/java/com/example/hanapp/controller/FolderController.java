@@ -1,6 +1,7 @@
 package com.example.hanapp.controller;
 
 import com.example.hanapp.entity.request.FolderRequest;
+import com.example.hanapp.entity.response.FolderLessonResponse;
 import com.example.hanapp.entity.response.FolderResponse;
 import com.example.hanapp.entity.response.LessonResponse;
 import com.example.hanapp.service.FolderService;
@@ -29,7 +30,7 @@ public class FolderController {
     }
 
     @GetMapping("/{id}/lessons")
-    public ResponseEntity<List<LessonResponse>> getLessonsInFolder(@PathVariable Long id) {
+    public ResponseEntity<FolderLessonResponse> getLessonsInFolder(@PathVariable Long id) {
         return ResponseEntity.ok(lessonService.getLessonsInFolder(id));
     }
 
