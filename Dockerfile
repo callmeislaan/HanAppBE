@@ -6,6 +6,6 @@ RUN mvn clean package
 
 FROM openjdk:8-jdk-alpine
 WORKDIR app
-COPY --from=build target/vietdang-0.0.1-SNAPSHOT.jar /runner.jar
+COPY --from=build target/hanapp-0.0.1-SNAPSHOT.jar /runner.jar
 ENTRYPOINT java -jar /runner.jar
 
