@@ -1,0 +1,17 @@
+version: "2"
+
+services:
+  hanappapp:
+    container_name: hanappapp
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - hanapp_network
+
+networks:
+  hanapp_network:
+    external: true
+    name: hanapp_network
+
+
